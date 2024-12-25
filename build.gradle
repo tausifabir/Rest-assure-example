@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'io.rest-assured:rest-assured:5.3.0' // add rest-assured dependency
+    testImplementation 'org.testng:testng:7.8.0' // add testng testing framework dependency
+    implementation 'org.uncommons:reportng:1.1.4' // add testng reportng dependency
+    implementation 'org.slf4j:slf4j-api:2.0.9' // add slf4j dependency for test logging
+    implementation 'org.slf4j:slf4j-simple:2.0.9' // add slf4j dependency for test logging
+    implementation group: 'com.google.inject', name: 'guice', version: '7.0.0'
+}
+
+test {
+    useJUnitPlatform()
+    reports.html.required = false // set gradle html report to false
+    reports.junitXml.required = false // set gradle junitXml report to false
+// use testng testing framework
+    useTestNG() {
+        useDefaultListeners = true
+        suites 'src/test/resources/testng.xml' // set testng.xml file path
+    }
+    testLogging.showStandardStreams = true // output test log to console
+    testLogging.events "passed", "skipped", "failed" // deny output test log to console
+}
